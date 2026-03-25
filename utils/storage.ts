@@ -46,7 +46,7 @@ const KEYS = {
 
 // ─── Default Values ───────────────────────────────────────────
 
-const DEFAULT_PERIOD_TIMES: PeriodTime[] = [
+const DEFAULT_PERIOD_TIMES: ReadonlyArray<PeriodTime> = [
   { startHour: 9, startMinute: 0, endHour: 10, endMinute: 30 },
   { startHour: 10, startMinute: 40, endHour: 12, endMinute: 10 },
   { startHour: 13, startMinute: 0, endHour: 14, endMinute: 30 },
@@ -57,12 +57,16 @@ const DEFAULT_PERIOD_TIMES: PeriodTime[] = [
   { startHour: 21, startMinute: 20, endHour: 22, endMinute: 50 },
 ];
 
-export const DEFAULT_SETTINGS: Settings = {
-  maxPeriods: 5,
-  periodTimes: DEFAULT_PERIOD_TIMES,
-  defaultUrl: '',
-  notifyBeforeDefault: 5,
-};
+export function createDefaultSettings(): Settings {
+  return {
+    maxPeriods: 5,
+    periodTimes: DEFAULT_PERIOD_TIMES.map(pt => ({ ...pt })),
+    defaultUrl: '',
+    notifyBeforeDefault: 5,
+  };
+}
+
+export const DEFAULT_SETTINGS: Settings = createDefaultSettings();
 
 // ─── Timetable CRUD ───────────────────────────────────────────
 
@@ -103,19 +107,36 @@ export async function deleteTimetableEntry(id: string): Promise<TimetableEntry[]
 export async function getSettings(): Promise<Settings> {
   try {
     const data = await AsyncStorage.getItem(KEYS.SETTINGS);
+    const defaults = createDefaultSettings();
     if (data) {
-      const parsed = JSON.parse(data);
-      // Merge with defaults for any missing keys
-      return { ...DEFAULT_SETTINGS, ...parsed };
+      const parsed = JSON.parse(data) as Partial<Settings>;
+      // Merge with defaults for any missing keys, including nested periodTimes
+      return {
+        ...defaults,
+        ...parsed,
+        periodTimes: Array.isArray(parsed.periodTimes) && parsed.periodTimes.length > 0
+          ? parsed.periodTimes
+          : defaults.periodTimes,
+      };
     }
-    return { ...DEFAULT_SETTINGS };
+    return defaults;
   } catch {
-    return { ...DEFAULT_SETTINGS };
+    return createDefaultSettings();
   }
 }
 
 export async function saveSettings(settings: Settings): Promise<void> {
   await AsyncStorage.setItem(KEYS.SETTINGS, JSON.stringify(settings));
+}
+
+export async function resetAllData(): Promise<Settings> {
+  const defaults = createDefaultSettings();
+  await Promise.all([
+    saveSettings(defaults),
+    saveTimetable([]),
+    saveMemos([]),
+  ]);
+  return defaults;
 }
 
 // ─── Memos CRUD ───────────────────────────────────────────────

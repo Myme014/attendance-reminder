@@ -1,11 +1,11 @@
 import { AppFonts } from '@/constants/theme';
 import {
-  DEFAULT_SETTINGS,
-  Settings,
+  createDefaultSettings,
   formatTime,
   getSettings,
+  resetAllData,
   saveSettings,
-  saveTimetable
+  Settings
 } from '@/utils/storage';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -25,7 +25,7 @@ import {
 } from 'react-native';
 
 export default function SettingsScreen() {
-  const [settings, setSettings] = useState<Settings>(DEFAULT_SETTINGS);
+  const [settings, setSettings] = useState<Settings>(createDefaultSettings());
   const [hasChanges, setHasChanges] = useState(false);
 
   // Time picker state
@@ -105,25 +105,24 @@ export default function SettingsScreen() {
 
   const handleResetAll = () => {
     Alert.alert(
-      '全データリセット',
-      'すべてのデータ（時間割・メモ・設定）をリセットしますか？この操作は取り消せません。',
+      '確認',
+      '本当にリセットしますか？\nこの操作は取り消せません。',
       [
         { text: 'キャンセル', style: 'cancel' },
         {
           text: 'リセット',
           style: 'destructive',
           onPress: async () => {
-            await Notifications.cancelAllScheduledNotificationsAsync();
-            await saveSettings(DEFAULT_SETTINGS);
-            await saveTimetable([]);
-            const { deleteMemo, getMemos } = await import('@/utils/storage');
-            const memos = await getMemos();
-            for (const m of memos) {
-              await deleteMemo(m.id);
+            try {
+              // 通知キャンセルが失敗してもデータ初期化は必ず実行する
+              await Notifications.cancelAllScheduledNotificationsAsync().catch(() => undefined);
+              const defaultSettings = await resetAllData();
+              setSettings(defaultSettings);
+              setHasChanges(false);
+              Alert.alert('完了', '全データをリセットしました。');
+            } catch {
+              Alert.alert('エラー', 'リセットに失敗しました。もう一度お試しください。');
             }
-            setSettings(DEFAULT_SETTINGS);
-            setHasChanges(false);
-            Alert.alert('完了', 'すべてのデータをリセットしました。');
           },
         },
       ]
@@ -267,7 +266,6 @@ export default function SettingsScreen() {
 
         {/* Danger Zone */}
         <View style={[styles.section, styles.dangerSection]}>
-          <Text style={[styles.sectionTitle, { color: '#E53935' }]}>⚠️ 危険ゾーン</Text>
           <TouchableOpacity style={styles.resetButton} onPress={handleResetAll}>
             <Text style={styles.resetButtonText}>全データをリセット</Text>
           </TouchableOpacity>
