@@ -123,7 +123,7 @@ export default function MemoScreen() {
         colors={['#f093fb', '#f5576c']}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
-        style={styles.header}
+        style={styles.header} 
       >
         <Text style={styles.headerTitle}>📝 メモ</Text>
         <Text style={styles.headerSubtitle}>
@@ -227,7 +227,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.14,
     shadowRadius: 10,
     elevation: 8,
-    zIndex: 100,
   },
   headerTitle: {
     fontSize: 28,
