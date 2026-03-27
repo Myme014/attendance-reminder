@@ -217,6 +217,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F0F2F8',
+    overflow: 'visible',
   },
   header: {
     paddingTop: Platform.OS === 'ios' ? 60 : 40,
@@ -227,6 +228,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.14,
     shadowRadius: 10,
     elevation: 8,
+    zIndex: 100,
+    position: 'relative',
   },
   headerTitle: {
     fontSize: 28,
