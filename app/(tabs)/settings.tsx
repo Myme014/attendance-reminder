@@ -309,8 +309,11 @@ export default function SettingsScreen() {
                 mode="time"
                 is24Hour={true}
                 display="spinner"
+                themeVariant="light"
+                textColor="#2D3142"
+                accentColor="#3F4E67"
                 onChange={handleTimeChange}
-                style={{ height: 200 }}
+                style={{ height: 220, width: '100%' }}
               />
             </View>
           </View>
