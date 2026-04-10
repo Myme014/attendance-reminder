@@ -17,7 +17,6 @@ import { useFocusEffect } from 'expo-router';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   Alert,
-  Dimensions,
   Linking,
   Modal,
   Platform,
@@ -62,8 +61,6 @@ Notifications.setNotificationHandler({
     shouldShowList: true,
   }),
 });
-
-const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 export default function TimetableScreen() {
   const [selectedDay, setSelectedDay] = useState(() => {
@@ -267,12 +264,12 @@ export default function TimetableScreen() {
     <View style={styles.container}>
       {/* Header */}
       <LinearGradient
-        colors={['#667eea', '#764ba2']}
+        colors={['#3F4E67', '#8EA2BE']}
         start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
+        end={{ x: 1, y: 0 }}
         style={styles.header}
       >
-        <Text style={styles.headerTitle}>📅 時間割</Text>
+        <Text style={styles.headerTitle}>時間割</Text>
         <Text style={styles.headerSubtitle}>出席リマインダー</Text>
       </LinearGradient>
 
@@ -439,7 +436,7 @@ export default function TimetableScreen() {
               <Switch
                 value={formIsEmpty}
                 onValueChange={setFormIsEmpty}
-                trackColor={{ false: '#E0E0E0', true: '#667eea' }}
+                trackColor={{ false: '#E0E0E0', true: 'rgba(63, 77, 103, 0.86)' }}
                 thumbColor="#fff"
               />
             </View>
@@ -528,14 +525,16 @@ const styles = StyleSheet.create({
     overflow: 'visible',
   },
   header: {
-    paddingTop: Platform.OS === 'ios' ? 60 : 40,
-    paddingBottom: 20,
+    paddingTop: Platform.OS === 'ios' ? 68 : 46,
+    paddingBottom: 24,
     paddingHorizontal: 24,
+    borderBottomLeftRadius: 14,
+    borderBottomRightRadius: 14,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.14,
+    shadowOpacity: 0.16,
     shadowRadius: 10,
-    elevation: 8,
+    elevation: 6,
     zIndex: 100,
     position: 'relative',
   },
@@ -543,13 +542,16 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: '800',
     fontFamily: AppFonts.bold,
-    color: '#fff',
+    color: '#FFFFFF',
+    textShadowColor: 'rgba(0,0,0,0.35)',
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 2,
     letterSpacing: 0.5,
   },
   headerSubtitle: {
     fontSize: 14,
     fontFamily: AppFonts.regular,
-    color: 'rgba(255,255,255,0.8)',
+    color: '#F1F1F1',
     marginTop: 4,
     letterSpacing: 0.3,
   },
@@ -572,8 +574,8 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   dayTabActive: {
-    backgroundColor: '#667eea',
-    shadowColor: '#667eea',
+    backgroundColor: 'rgba(63, 77, 103, 0.86)',
+    shadowColor: 'rgba(63, 77, 103, 0.86)',
     shadowOpacity: 0.3,
     shadowRadius: 8,
     elevation: 6,
@@ -664,8 +666,8 @@ const styles = StyleSheet.create({
     padding: 16,
     marginBottom: 10,
     borderLeftWidth: 4,
-    borderLeftColor: '#667eea',
-    shadowColor: '#667eea',
+    borderLeftColor: 'rgba(63, 77, 103, 0.86)',
+    shadowColor: 'rgba(63, 77, 103, 0.86)',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.08,
     shadowRadius: 8,
@@ -677,7 +679,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   periodBadge: {
-    backgroundColor: '#667eea',
+    backgroundColor: 'rgba(63, 77, 103, 0.86)',
     paddingHorizontal: 10,
     paddingVertical: 4,
     borderRadius: 8,
@@ -732,7 +734,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   urlButtonText: {
-    color: '#667eea',
+    color: 'rgba(63, 77, 103, 0.86)',
     fontWeight: '700',
     fontFamily: AppFonts.bold,
     fontSize: 14,
@@ -768,7 +770,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '700',
     fontFamily: AppFonts.bold,
-    color: '#667eea',
+    color: 'rgba(63, 77, 103, 0.86)',
   },
   modalBody: {
     flex: 1,
@@ -829,8 +831,8 @@ const styles = StyleSheet.create({
     borderColor: '#E8EAF0',
   },
   notifyOptionActive: {
-    backgroundColor: '#667eea',
-    borderColor: '#667eea',
+    backgroundColor: 'rgba(63, 77, 103, 0.86)',
+    borderColor: 'rgba(63, 77, 103, 0.86)',
   },
   notifyOptionText: {
     fontSize: 14,

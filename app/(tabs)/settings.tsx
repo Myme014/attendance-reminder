@@ -10,7 +10,7 @@ import {
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Notifications from 'expo-notifications';
-import { useFocusEffect } from 'expo-router';
+import { useFocusEffect, useRouter } from 'expo-router';
 import React, { useCallback, useState } from 'react';
 import {
   Alert,
@@ -25,6 +25,7 @@ import {
 } from 'react-native';
 
 export default function SettingsScreen() {
+  const router = useRouter();
   const [settings, setSettings] = useState<Settings>(createDefaultSettings());
   const [hasChanges, setHasChanges] = useState(false);
 
@@ -79,26 +80,37 @@ export default function SettingsScreen() {
   };
 
   const handleTimeChange = (_event: any, selectedDate?: Date) => {
-    if (Platform.OS === 'android') {
-      setPickerVisible(false);
-    }
     if (!selectedDate || !pickerTarget) return;
 
+    setPickerDate(selectedDate);
+
+    // Androidの場合は「OK」を押すと閉じるのでここで保存処理も行う
+    if (Platform.OS === 'android') {
+      saveTimeSetting(selectedDate);
+      setPickerVisible(false);
+      setPickerTarget(null);
+    }
+  };
+
+  const saveTimeSetting = (date: Date) => {
+    if (!pickerTarget) return;
     const newTimes = [...settings.periodTimes];
     const pt = { ...newTimes[pickerTarget.periodIdx] };
     if (pickerTarget.type === 'start') {
-      pt.startHour = selectedDate.getHours();
-      pt.startMinute = selectedDate.getMinutes();
+      pt.startHour = date.getHours();
+      pt.startMinute = date.getMinutes();
     } else {
-      pt.endHour = selectedDate.getHours();
-      pt.endMinute = selectedDate.getMinutes();
+      pt.endHour = date.getHours();
+      pt.endMinute = date.getMinutes();
     }
     newTimes[pickerTarget.periodIdx] = pt;
     updateSettings({ periodTimes: newTimes });
-    setPickerDate(selectedDate);
   };
 
   const confirmTimePicker = () => {
+    if (pickerTarget && pickerDate) {
+      saveTimeSetting(pickerDate);
+    }
     setPickerVisible(false);
     setPickerTarget(null);
   };
@@ -138,12 +150,12 @@ export default function SettingsScreen() {
     <View style={styles.container}>
       {/* Header */}
       <LinearGradient
-        colors={['#4facfe', '#00f2fe']}
+        colors={['#3F4E67', '#8EA2BE']}
         start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
+        end={{ x: 1, y: 0 }}
         style={styles.header}
       >
-        <Text style={styles.headerTitle}>⚙️ 設定</Text>
+        <Text style={styles.headerTitle}>設定</Text>
         <Text style={styles.headerSubtitle}>時間割・通知の設定</Text>
       </LinearGradient>
 
@@ -154,7 +166,7 @@ export default function SettingsScreen() {
       >
         {/* Max Periods */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>📚 最大限数</Text>
+          <Text style={styles.sectionTitle}>最大限数</Text>
           <Text style={styles.sectionDesc}>大学の時間割の最大コマ数を設定</Text>
           <View style={styles.stepperRow}>
             <TouchableOpacity
@@ -179,7 +191,7 @@ export default function SettingsScreen() {
 
         {/* Period Times */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>🕐 時限の時間帯</Text>
+          <Text style={styles.sectionTitle}>時限の時間帯</Text>
           <Text style={styles.sectionDesc}>各時限の開始・終了時刻を設定</Text>
           {settings.periodTimes.slice(0, settings.maxPeriods).map((pt, idx) => (
             <View key={idx} style={styles.periodTimeRow}>
@@ -209,7 +221,7 @@ export default function SettingsScreen() {
 
         {/* Default URL */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>🔗 デフォルト出席URL</Text>
+          <Text style={styles.sectionTitle}>ポータルサイトURL設定</Text>
           <Text style={styles.sectionDesc}>出席コード入力ページのURLを設定</Text>
           <TextInput
             style={styles.urlInput}
@@ -225,7 +237,7 @@ export default function SettingsScreen() {
 
         {/* Default Notify Before */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>🔔 デフォルト通知タイミング</Text>
+          <Text style={styles.sectionTitle}>通知タイミング設定</Text>
           <Text style={styles.sectionDesc}>授業の何分前に通知するか</Text>
           <View style={styles.stepperRow}>
             <TouchableOpacity
@@ -254,12 +266,12 @@ export default function SettingsScreen() {
         {hasChanges && (
           <TouchableOpacity style={styles.saveButtonWrapper} onPress={handleSave}>
             <LinearGradient
-              colors={['#4facfe', '#00f2fe']}
+              colors={['#3F4E67', '#8EA2BE']}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 0 }}
               style={styles.saveButton}
             >
-              <Text style={styles.saveButtonText}>💾 設定を保存</Text>
+              <Text style={styles.saveButtonText}>設定を保存</Text>
             </LinearGradient>
           </TouchableOpacity>
         )}
@@ -268,6 +280,14 @@ export default function SettingsScreen() {
         <View style={[styles.section, styles.dangerSection]}>
           <TouchableOpacity style={styles.resetButton} onPress={handleResetAll}>
             <Text style={styles.resetButtonText}>全データをリセット</Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* OSS Licenses */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>ライセンス</Text>
+          <TouchableOpacity style={styles.licenseButton} onPress={() => router.push('/licenses')}>
+            <Text style={styles.licenseButtonText}>表示する</Text>
           </TouchableOpacity>
         </View>
 
@@ -307,6 +327,45 @@ export default function SettingsScreen() {
           onChange={handleTimeChange}
         />
       )}
+
+      {/* Time Picker (Web) */}
+      {Platform.OS === 'web' && pickerVisible && (
+        <Modal transparent animationType="slide">
+          <View style={styles.pickerOverlay}>
+            <View style={styles.pickerContainer}>
+              <View style={styles.pickerHeader}>
+                <TouchableOpacity onPress={confirmTimePicker}>
+                  <Text style={styles.pickerDone}>完了</Text>
+                </TouchableOpacity>
+              </View>
+              <View style={{ padding: 30, alignItems: 'center' }}>
+                <Text style={{ marginBottom: 10, fontSize: 16 }}>Webブラウザでは下の入力欄で変更できます:</Text>
+                <TextInput
+                  style={[styles.urlInput, { minWidth: 150, textAlign: 'center', fontSize: 24 }]}
+                  defaultValue={formatTime(pickerDate.getHours(), pickerDate.getMinutes())}
+                  keyboardType="numbers-and-punctuation"
+                  onSubmitEditing={(e) => {
+                    const text = e.nativeEvent.text;
+                    const parts = text.split(':');
+                    if (parts.length === 2) {
+                      const h = parseInt(parts[0], 10);
+                      const m = parseInt(parts[1], 10);
+                      if (!isNaN(h) && !isNaN(m)) {
+                        const d = new Date();
+                        d.setHours(h, m, 0, 0);
+                        handleTimeChange(null, d);
+                      }
+                    }
+                    confirmTimePicker();
+                  }}
+                  placeholder="09:00"
+                />
+                <Text style={{ marginTop: 10, color: '#666', fontSize: 12 }}>入力後、Enterキーを押すか「完了」を押してください。</Text>
+              </View>
+            </View>
+          </View>
+        </Modal>
+      )}
     </View>
   );
 }
@@ -318,14 +377,16 @@ const styles = StyleSheet.create({
     overflow: 'visible',
   },
   header: {
-    paddingTop: Platform.OS === 'ios' ? 60 : 40,
-    paddingBottom: 20,
+    paddingTop: Platform.OS === 'ios' ? 68 : 46,
+    paddingBottom: 24,
     paddingHorizontal: 24,
+    borderBottomLeftRadius: 14,
+    borderBottomRightRadius: 14,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.14,
+    shadowOpacity: 0.16,
     shadowRadius: 10,
-    elevation: 8,
+    elevation: 6,
     zIndex: 100,
     position: 'relative',
   },
@@ -333,13 +394,16 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: '800',
     fontFamily: AppFonts.bold,
-    color: '#fff',
+    color: '#FFFFFF',
+    textShadowColor: 'rgba(0,0,0,0.35)',
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 2,
     letterSpacing: 0.5,
   },
   headerSubtitle: {
     fontSize: 14,
     fontFamily: AppFonts.regular,
-    color: 'rgba(255,255,255,0.85)',
+    color: '#F1F1F1',
     marginTop: 4,
   },
   scrollContainer: {
@@ -366,12 +430,15 @@ const styles = StyleSheet.create({
     fontFamily: AppFonts.bold,
     color: '#2D3142',
     marginBottom: 4,
+    textAlign: 'center',
+    
   },
   sectionDesc: {
     fontSize: 13,
     fontFamily: AppFonts.regular,
     color: '#AAB2C0',
     marginBottom: 16,
+    textAlign: 'center',
   },
   // Stepper
   stepperRow: {
@@ -421,7 +488,7 @@ const styles = StyleSheet.create({
   periodLabel: {
     width: 40,
     paddingVertical: 6,
-    backgroundColor: '#667eea',
+    backgroundColor: 'rgba(63, 77, 103, 0.86)',
     borderRadius: 8,
     alignItems: 'center',
   },
@@ -499,6 +566,19 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     fontFamily: AppFonts.bold,
     fontSize: 15,
+  },
+  licenseButton: {
+    backgroundColor: '#FFFFFF',
+    paddingVertical: 12,
+    borderRadius: 12,
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#D9DFEA',
+  },
+  licenseButtonText: {
+    color: '#2D3142',
+    fontFamily: AppFonts.medium,
+    fontSize: 14,
   },
   // Picker modal (iOS)
   pickerOverlay: {

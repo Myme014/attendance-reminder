@@ -120,12 +120,12 @@ export default function MemoScreen() {
     <View style={styles.container}>
       {/* Header */}
       <LinearGradient
-        colors={['#f093fb', '#f5576c']}
+        colors={['#3F4E67', '#8EA2BE']}
         start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
-        style={styles.header} 
+        end={{ x: 1, y: 0 }}
+        style={styles.header}
       >
-        <Text style={styles.headerTitle}>📝 メモ</Text>
+        <Text style={styles.headerTitle}>メモ</Text>
         <Text style={styles.headerSubtitle}>
           {memos.length > 0 ? `${memos.length}件のメモ` : 'メモはまだありません'}
         </Text>
@@ -135,7 +135,7 @@ export default function MemoScreen() {
       <View style={styles.addRow}>
         <TouchableOpacity style={styles.addButton} onPress={openNew}>
           <LinearGradient
-            colors={['#f093fb', '#f5576c']}
+            colors={['#3F4E67', '#8EA2BE']}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
             style={styles.addButtonGradient}
@@ -148,7 +148,7 @@ export default function MemoScreen() {
       {/* Memos list */}
       {memos.length === 0 ? (
         <View style={styles.emptyContainer}>
-          <Text style={styles.emptyIcon}>📋</Text>
+          <Text style={styles.emptyIcon}></Text>
           <Text style={styles.emptyText}>メモがありません</Text>
           <Text style={styles.emptySubtext}>「＋ 新しいメモ」をタップして{'\n'}メモを作成しましょう</Text>
         </View>
@@ -220,14 +220,16 @@ const styles = StyleSheet.create({
     overflow: 'visible',
   },
   header: {
-    paddingTop: Platform.OS === 'ios' ? 60 : 40,
-    paddingBottom: 20,
+    paddingTop: Platform.OS === 'ios' ? 68 : 46,
+    paddingBottom: 24,
     paddingHorizontal: 24,
+    borderBottomLeftRadius: 14,
+    borderBottomRightRadius: 14,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.14,
+    shadowOpacity: 0.16,
     shadowRadius: 10,
-    elevation: 8,
+    elevation: 6,
     zIndex: 100,
     position: 'relative',
   },
@@ -235,13 +237,16 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: '800',
     fontFamily: AppFonts.bold,
-    color: '#fff',
+    color: '#FFFFFF',
+    textShadowColor: 'rgba(0,0,0,0.35)',
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 2,
     letterSpacing: 0.5,
   },
   headerSubtitle: {
     fontSize: 14,
     fontFamily: AppFonts.regular,
-    color: 'rgba(255,255,255,0.85)',
+    color: '#F1F1F1',
     marginTop: 4,
   },
   addRow: {
@@ -251,9 +256,9 @@ const styles = StyleSheet.create({
   addButton: {
     borderRadius: 14,
     overflow: 'hidden',
-    shadowColor: '#f5576c',
+    shadowColor: '#000000',
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.25,
+    shadowOpacity: 0.15,
     shadowRadius: 8,
     elevation: 6,
   },
