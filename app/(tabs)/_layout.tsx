@@ -2,9 +2,9 @@ import { Tabs } from 'expo-router';
 import React from 'react';
 
 import { HapticTab } from '@/components/haptic-tab';
-import { IconSymbol } from '@/components/ui/icon-symbol';
 import { AppFonts } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
+import { Image } from 'react-native';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -40,21 +40,36 @@ export default function TabLayout() {
         name="index"
         options={{
           title: '時間割',
-          tabBarIcon: ({ color }) => <IconSymbol size={26} name="calendar" color={color} />,
+          tabBarIcon: ({ color }) => (
+            <Image
+              source={require('@/assets/images/assignment_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg')}
+              style={{ width: 26, height: 26, tintColor: color }}
+            />
+          ),
         }}
       />
       <Tabs.Screen
         name="memo"
         options={{
           title: 'メモ',
-          tabBarIcon: ({ color }) => <IconSymbol size={26} name="note.text" color={color} />,
+          tabBarIcon: ({ color }) =>(
+            <Image
+              source={require('@/assets/images/add_notes_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg')}
+              style={{ width: 26, height: 26, tintColor: color }}
+            />
+          ),
         }}
       />
       <Tabs.Screen
         name="settings"
         options={{
           title: '設定',
-          tabBarIcon: ({ color }) => <IconSymbol size={26} name="gearshape.fill" color={color} />,
+          tabBarIcon: ({ color }) => (
+            <Image
+              source={require('@/assets/images/settings_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg')}
+              style={{ width: 26, height: 26, tintColor: color }}
+            />
+          )
         }}
       />
     </Tabs>
