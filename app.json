@@ -1,16 +1,16 @@
 {
   "expo": {
-    "name": "Syusseki",
-    "slug": "Syusseki",
+    "name": "attendance-reminder",
+    "slug": "attendance-reminder",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "syusseki",
+    "scheme": "attendance-reminder",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.yourname.syusseki",
+      "bundleIdentifier": "com.yourname.attendancereminder",
       "infoPlist": {
         "NSUserNotificationsUsageDescription": "出席リマインダーの通知を送るために使用します。収集したデータは端末内にのみ保存され、外部に送信されることはありません。"
       }

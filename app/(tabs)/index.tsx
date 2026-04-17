@@ -174,7 +174,7 @@ export default function TimetableScreen() {
     try {
       const notificationId = await Notifications.scheduleNotificationAsync({
         content: {
-          title: '📚 出席確認リマインダー',
+          title: ' 出席確認リマインダー',
           body: `「${entry.lectureName}」の出席コードを入力する時間です！`,
           data: {
             lectureName: entry.lectureName,
@@ -506,7 +506,7 @@ export default function TimetableScreen() {
 
             {editingEntry && entries.find(e => e.id === editingEntry.id) && (
               <TouchableOpacity style={styles.deleteButton} onPress={handleDelete}>
-                <Text style={styles.deleteButtonText}>🗑 この授業を削除</Text>
+                <Text style={styles.deleteButtonText}>この授業を削除</Text>
               </TouchableOpacity>
             )}
 
@@ -661,17 +661,19 @@ const styles = StyleSheet.create({
   },
   // Lecture card
   lectureCard: {
-    backgroundColor: '#fff',
+    backgroundColor: '#FFFFFF',
     borderRadius: 16,
     padding: 16,
     marginBottom: 10,
-    borderLeftWidth: 4,
-    borderLeftColor: 'rgba(63, 77, 103, 0.86)',
-    shadowColor: 'rgba(63, 77, 103, 0.86)',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.08,
-    shadowRadius: 8,
-    elevation: 3,
+    borderLeftWidth: 6,
+    borderLeftColor: '#2F3D55',
+    borderWidth: 1,
+    borderColor: '#C8D3E3',
+    shadowColor: '#2F3D55',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 12,
+    elevation: 7,
   },
   cardHeader: {
     flexDirection: 'row',

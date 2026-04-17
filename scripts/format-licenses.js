@@ -20,7 +20,7 @@ const filtered = lines.filter((line) => {
 });
 
 const header = [
-  'Syusseki - Open Source Licenses',
+  'attendance-reminder - Open Source Licenses',
   `Generated at: ${new Date().toISOString()}`,
   '',
   'This list includes production dependencies used by this app.',

@@ -1,5 +1,5 @@
 {
-  "name": "syusseki",
+  "name": "attendance-reminder",
   "main": "expo-router/entry",
   "version": "1.0.0",
   "scripts": {
