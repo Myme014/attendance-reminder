@@ -30,11 +30,11 @@ import {
 } from 'react-native';
 
 // ─── URL Security Helper ──────────────────────────────────────
-// Only allow http/https to prevent abuse of tel:, file:, javascript: etc.
+// Only allow https to prevent abuse of tel:, file:, javascript:, http: etc.
 function isSafeUrl(url: string): boolean {
   try {
     const parsed = new URL(url);
-    return parsed.protocol === 'https:' || parsed.protocol === 'http:';
+    return parsed.protocol === 'https:';
   } catch {
     return false;
   }
@@ -44,7 +44,7 @@ async function safeOpenURL(url: string): Promise<void> {
   if (!isSafeUrl(url)) {
     Alert.alert(
       '無効なURL',
-      'https:// または http:// で始まるURLのみ開けます。\n設定画面でURLを確認してください。'
+      'https:// で始まるURLのみ開けます。\n設定画面でURLを確認してください。'
     );
     return;
   }
