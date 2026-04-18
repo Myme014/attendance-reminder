@@ -4,7 +4,7 @@ import React from 'react';
 import { HapticTab } from '@/components/haptic-tab';
 import { AppFonts } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
-import { Image } from 'react-native';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -41,10 +41,7 @@ export default function TabLayout() {
         options={{
           title: '時間割',
           tabBarIcon: ({ color }) => (
-            <Image
-              source={require('@/assets/images/assignment_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg')}
-              style={{ width: 26, height: 26, tintColor: color }}
-            />
+            <MaterialIcons name="assignment" size={26} color={color} />
           ),
         }}
       />
@@ -53,10 +50,7 @@ export default function TabLayout() {
         options={{
           title: 'メモ',
           tabBarIcon: ({ color }) =>(
-            <Image
-              source={require('@/assets/images/add_notes_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg')}
-              style={{ width: 26, height: 26, tintColor: color }}
-            />
+            <MaterialIcons name="note-add" size={26} color={color} />
           ),
         }}
       />
@@ -65,10 +59,7 @@ export default function TabLayout() {
         options={{
           title: '設定',
           tabBarIcon: ({ color }) => (
-            <Image
-              source={require('@/assets/images/settings_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg')}
-              style={{ width: 26, height: 26, tintColor: color }}
-            />
+            <MaterialIcons name="settings" size={26} color={color} />
           )
         }}
       />

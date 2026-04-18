@@ -84,7 +84,7 @@ export default function SettingsScreen() {
 
     setPickerDate(selectedDate);
 
-    // Androidの場合は「OK」を押すと閉じるのでここで保存処理も行う
+    
     if (Platform.OS === 'android') {
       saveTimeSetting(selectedDate);
       setPickerVisible(false);
