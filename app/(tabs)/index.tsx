@@ -19,7 +19,6 @@ import {
   Alert,
   Linking,
   Modal,
-  Platform,
   ScrollView,
   StyleSheet,
   Switch,
@@ -263,12 +262,12 @@ export default function TimetableScreen() {
   const dayEntries = getDayEntries(selectedDay);
 
   return (
-    <SafeAreaView style={styles.container} edges={['top', 'left', 'right']}>
+    <SafeAreaView style={styles.container} edges={['left', 'right']}>
       {/* Header */}
       <View
         style={[
           styles.header,
-          { backgroundColor: '#3F4E67', paddingTop: Platform.OS === 'ios' ? 68 : 46 },
+          { backgroundColor: '#3F4E67', paddingTop: insets.top + 24 },
         ]}
       >
         <Text style={styles.headerTitle}>時間割</Text>
