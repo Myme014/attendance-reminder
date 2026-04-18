@@ -1,50 +1,83 @@
-# Welcome to your Expo app 👋
+# Attendance Reminder
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+大学の出席コード入力を忘れないための、時間割連動リマインダーアプリです。
 
-## Get started
+授業ごとにURLと通知タイミングを設定し、毎週同じ曜日・時限でローカル通知を送ります。
 
-1. Install dependencies
+## 主な機能
 
-   ```bash
-   npm install
-   ```
+- 曜日（月〜金）x 時限（最大8限）の時間割管理
+- 授業ごとの出席URL設定
+- 授業開始前の週次ローカル通知
+- 空きコマ設定（通知なし）
+- メモ機能（授業メモや提出物メモの保存）
+- 設定機能
+  - 最大時限数の変更
+  - 各時限の開始/終了時刻の編集
+  - デフォルト出席URL設定
+  - デフォルト通知分前設定
+  - 全データリセット
+- OSSライセンス表示
 
-2. Start the app
+## 技術スタック
 
-   ```bash
-   npx expo start
-   ```
+- Expo / React Native / TypeScript
+- Expo Router（ファイルベースルーティング）
+- AsyncStorage（ローカル永続化）
+- Expo Notifications（ローカル通知）
 
-In the output, you'll find options to open the app in a
+## 画面構成
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- 時間割タブ: 授業の登録・編集・削除、URLオープン
+- メモタブ: メモの作成・編集・削除
+- 設定タブ: 時限設定、通知設定、URL設定、ライセンス表示
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## セットアップ
 
-## Get a fresh project
-
-When you're ready, run:
+### 1. 依存関係をインストール
 
 ```bash
-npm run reset-project
+npm install
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+### 2. 開発サーバー起動
 
-## Learn more
+```bash
+npm run start
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+必要に応じて以下も利用できます。
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+```bash
+npm run ios
+npm run android
+npm run web
+```
 
-## Join the community
+## 通知に関する注意
 
-Join our community of developers creating universal apps.
+- 初回起動時に通知許可を求めます。
+- 通知が無効だとリマインダーは届きません。
+- 授業編集時に既存通知をキャンセルし、新しい設定で再登録します。
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## 開発用スクリプト
+
+- `npm run lint`: ESLint実行
+- `npm run reset-project`: プロジェクト初期化用スクリプト
+- `npm run licenses:txt`: 依存ライセンス一覧を生成
+- `npm run licenses:public`: 公開用ライセンステキストを整形して生成
+
+## データ保存
+
+アプリデータは端末内のローカルストレージ（AsyncStorage）に保存されます。
+
+- 時間割データ
+- 設定データ
+- メモデータ
+
+## 今後の改善候補
+
+- 曜日（土日）対応
+- 授業の複製/一括編集
+- バックアップ/復元機能
+- 通知文面のカスタマイズ
