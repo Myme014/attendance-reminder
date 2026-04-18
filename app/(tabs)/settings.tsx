@@ -1,27 +1,26 @@
 import { AppFonts } from '@/constants/theme';
 import {
-  createDefaultSettings,
-  formatTime,
-  getSettings,
-  resetAllData,
-  saveSettings,
-  Settings
+    createDefaultSettings,
+    formatTime,
+    getSettings,
+    resetAllData,
+    saveSettings,
+    Settings
 } from '@/utils/storage';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { LinearGradient } from 'expo-linear-gradient';
 import * as Notifications from 'expo-notifications';
 import { useFocusEffect, useRouter } from 'expo-router';
 import React, { useCallback, useState } from 'react';
 import {
-  Alert,
-  Modal,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
+    Alert,
+    Modal,
+    Platform,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
 } from 'react-native';
 
 export default function SettingsScreen() {
@@ -149,15 +148,10 @@ export default function SettingsScreen() {
   return (
     <View style={styles.container}>
       {/* Header */}
-      <LinearGradient
-        colors={['#3F4E67', '#8EA2BE']}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 0 }}
-        style={styles.header}
-      >
+      <View style={[styles.header, { backgroundColor: 'rgba(63, 78, 103, 0.92)' }]}>
         <Text style={styles.headerTitle}>設定</Text>
         <Text style={styles.headerSubtitle}>時間割・通知の設定</Text>
-      </LinearGradient>
+      </View>
 
       <ScrollView
         style={styles.scrollContainer}
@@ -265,14 +259,9 @@ export default function SettingsScreen() {
         {/* Save Button */}
         {hasChanges && (
           <TouchableOpacity style={styles.saveButtonWrapper} onPress={handleSave}>
-            <LinearGradient
-              colors={['#3F4E67', '#8EA2BE']}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 0 }}
-              style={styles.saveButton}
-            >
+            <View style={[styles.saveButton, { backgroundColor: 'rgba(63, 78, 103, 0.92)' }]}>
               <Text style={styles.saveButtonText}>設定を保存</Text>
-            </LinearGradient>
+            </View>
           </TouchableOpacity>
         )}
 
@@ -385,6 +374,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     borderBottomLeftRadius: 14,
     borderBottomRightRadius: 14,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.22)',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.16,
@@ -537,6 +528,8 @@ const styles = StyleSheet.create({
     borderRadius: 14,
     overflow: 'hidden',
     marginBottom: 14,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.2)',
     shadowColor: '#4facfe',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
@@ -546,6 +539,7 @@ const styles = StyleSheet.create({
   saveButton: {
     paddingVertical: 16,
     alignItems: 'center',
+    backgroundColor: 'rgba(255,255,255,0.04)',
   },
   saveButtonText: {
     color: '#fff',

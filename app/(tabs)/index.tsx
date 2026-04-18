@@ -11,7 +11,7 @@ import {
   getTimetable,
   upsertTimetableEntry,
 } from '@/utils/storage';
-import { LinearGradient } from 'expo-linear-gradient';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import * as Notifications from 'expo-notifications';
 import { useFocusEffect } from 'expo-router';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
@@ -28,6 +28,7 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 
 // ─── URL Security Helper ──────────────────────────────────────
 // Only allow https to prevent abuse of tel:, file:, javascript:, http: etc.
@@ -63,6 +64,7 @@ Notifications.setNotificationHandler({
 });
 
 export default function TimetableScreen() {
+  const insets = useSafeAreaInsets();
   const [selectedDay, setSelectedDay] = useState(() => {
     const today = new Date().getDay();
     // Map: Sun=0 → 0(Mon), Mon=1 → 0, Tue=2 → 1, ...  Sat=6 → 4
@@ -261,17 +263,17 @@ export default function TimetableScreen() {
   const dayEntries = getDayEntries(selectedDay);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['top', 'left', 'right']}>
       {/* Header */}
-      <LinearGradient
-        colors={['#3F4E67', '#8EA2BE']}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 0 }}
-        style={styles.header}
+      <View
+        style={[
+          styles.header,
+          { backgroundColor: '#3F4E67', paddingTop: Platform.OS === 'ios' ? 68 : 46 },
+        ]}
       >
         <Text style={styles.headerTitle}>時間割</Text>
         <Text style={styles.headerSubtitle}>出席リマインダー</Text>
-      </LinearGradient>
+      </View>
 
       {/* Day Tabs */}
       <View style={styles.dayTabsContainer}>
@@ -363,7 +365,7 @@ export default function TimetableScreen() {
                   <Text style={styles.freeTimeText}>{timeStr}</Text>
                 </View>
                 <View style={styles.freeIcon}>
-                  <Text style={{ fontSize: 20 }}>☕</Text>
+                  <MaterialIcons name="local-cafe" size={20} color="#6D7688" />
                 </View>
               </TouchableOpacity>
             );
@@ -383,14 +385,17 @@ export default function TimetableScreen() {
                 </View>
                 <Text style={styles.cardTimeText}>{timeStr}</Text>
                 {entry.notificationId && (
-                  <Text style={styles.notifyBadge}>🔔</Text>
+                  <MaterialIcons name="notifications" size={16} color="#4E5F80" />
                 )}
               </View>
               <Text style={styles.lectureName}>{entry.lectureName}</Text>
               {entry.memo ? (
-                <Text style={styles.cardMemo} numberOfLines={2}>
-                  📝 {entry.memo}
-                </Text>
+                <View style={styles.cardMemoRow}>
+                  <MaterialIcons name="description" size={14} color="#7B8294" />
+                  <Text style={styles.cardMemo} numberOfLines={2}>
+                    {entry.memo}
+                  </Text>
+                </View>
               ) : null}
               {(entry.attendanceUrl || settings.defaultUrl) ? (
                 <TouchableOpacity
@@ -400,7 +405,10 @@ export default function TimetableScreen() {
                     openUrl(entry.attendanceUrl);
                   }}
                 >
-                  <Text style={styles.urlButtonText}>🔗 出席コードを入力</Text>
+                  <View style={styles.urlButtonContent}>
+                    <MaterialIcons name="link" size={16} color="rgba(63, 77, 103, 0.86)" />
+                    <Text style={styles.urlButtonText}>出席コードを入力</Text>
+                  </View>
                 </TouchableOpacity>
               ) : null}
             </TouchableOpacity>
@@ -417,7 +425,7 @@ export default function TimetableScreen() {
         onRequestClose={() => setModalVisible(false)}
       >
         <View style={styles.modalContainer}>
-          <View style={styles.modalHeader}>
+          <View style={[styles.modalHeader, { paddingTop: insets.top + 16 }]}> 
             <TouchableOpacity onPress={() => setModalVisible(false)}>
               <Text style={styles.modalCancel}>キャンセル</Text>
             </TouchableOpacity>
@@ -514,7 +522,7 @@ export default function TimetableScreen() {
           </ScrollView>
         </View>
       </Modal>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -525,11 +533,12 @@ const styles = StyleSheet.create({
     overflow: 'visible',
   },
   header: {
-    paddingTop: Platform.OS === 'ios' ? 68 : 46,
     paddingBottom: 24,
     paddingHorizontal: 24,
     borderBottomLeftRadius: 14,
     borderBottomRightRadius: 14,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.22)',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.16,
@@ -714,6 +723,12 @@ const styles = StyleSheet.create({
   notifyBadge: {
     fontSize: 14,
   },
+  cardMemoRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 6,
+    marginBottom: 8,
+  },
   lectureName: {
     fontSize: 18,
     fontWeight: '700',
@@ -725,7 +740,7 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontFamily: AppFonts.regular,
     color: '#7B8294',
-    marginBottom: 8,
+    flex: 1,
     lineHeight: 18,
   },
   urlButton: {
@@ -734,6 +749,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
     borderRadius: 10,
     alignItems: 'center',
+  },
+  urlButtonContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
   },
   urlButtonText: {
     color: 'rgba(63, 77, 103, 0.86)',
@@ -751,7 +771,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 20,
-    paddingTop: Platform.OS === 'ios' ? 16 : 20,
     paddingBottom: 16,
     backgroundColor: '#fff',
     borderBottomWidth: 1,

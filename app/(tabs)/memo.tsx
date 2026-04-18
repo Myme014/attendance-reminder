@@ -1,24 +1,24 @@
 import { AppFonts } from '@/constants/theme';
 import {
-  Memo,
-  deleteMemo,
-  generateId,
-  getMemos,
-  upsertMemo,
+    Memo,
+    deleteMemo,
+    generateId,
+    getMemos,
+    upsertMemo,
 } from '@/utils/storage';
-import { LinearGradient } from 'expo-linear-gradient';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useFocusEffect } from 'expo-router';
 import React, { useCallback, useState } from 'react';
 import {
-  Alert,
-  FlatList,
-  Modal,
-  Platform,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View
+    Alert,
+    FlatList,
+    Modal,
+    Platform,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View
 } from 'react-native';
 
 export default function MemoScreen() {
@@ -119,29 +119,19 @@ export default function MemoScreen() {
   return (
     <View style={styles.container}>
       {/* Header */}
-      <LinearGradient
-        colors={['#3F4E67', '#8EA2BE']}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 0 }}
-        style={styles.header}
-      >
+      <View style={[styles.header, { backgroundColor: 'rgba(63, 78, 103, 0.92)' }]}>
         <Text style={styles.headerTitle}>メモ</Text>
         <Text style={styles.headerSubtitle}>
           {memos.length > 0 ? `${memos.length}件のメモ` : 'メモはまだありません'}
         </Text>
-      </LinearGradient>
+      </View>
 
       {/* Add button */}
       <View style={styles.addRow}>
         <TouchableOpacity style={styles.addButton} onPress={openNew}>
-          <LinearGradient
-            colors={['#3F4E67', '#8EA2BE']}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-            style={styles.addButtonGradient}
-          >
+          <View style={[styles.addButtonGradient, { backgroundColor: 'rgba(63, 78, 103, 0.92)' }]}>
             <Text style={styles.addButtonText}>＋ 新しいメモ</Text>
-          </LinearGradient>
+          </View>
         </TouchableOpacity>
       </View>
 
@@ -204,7 +194,10 @@ export default function MemoScreen() {
 
           {editingMemo && (
             <TouchableOpacity style={styles.deleteButton} onPress={handleDelete}>
-              <Text style={styles.deleteButtonText}>🗑 このメモを削除</Text>
+              <View style={styles.deleteButtonContent}>
+                <MaterialIcons name="delete" size={18} color="#E53935" />
+                <Text style={styles.deleteButtonText}>このメモを削除</Text>
+              </View>
             </TouchableOpacity>
           )}
         </View>
@@ -225,6 +218,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     borderBottomLeftRadius: 14,
     borderBottomRightRadius: 14,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.22)',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.16,
@@ -256,6 +251,8 @@ const styles = StyleSheet.create({
   addButton: {
     borderRadius: 14,
     overflow: 'hidden',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.2)',
     shadowColor: '#000000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.15,
@@ -265,6 +262,7 @@ const styles = StyleSheet.create({
   addButtonGradient: {
     paddingVertical: 14,
     alignItems: 'center',
+    backgroundColor: 'rgba(255,255,255,0.04)',
   },
   addButtonText: {
     color: '#fff',
@@ -396,6 +394,11 @@ const styles = StyleSheet.create({
     padding: 16,
     borderRadius: 12,
     alignItems: 'center',
+  },
+  deleteButtonContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
   },
   deleteButtonText: {
     color: '#E53935',
