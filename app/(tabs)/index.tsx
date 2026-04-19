@@ -19,6 +19,7 @@ import {
   Alert,
   Linking,
   Modal,
+  Platform,
   ScrollView,
   StyleSheet,
   Switch,
@@ -267,7 +268,10 @@ export default function TimetableScreen() {
       <View
         style={[
           styles.header,
-          { backgroundColor: '#3F4E67', paddingTop: insets.top + 24 },
+          {
+            backgroundColor: '#3F4E67',
+            paddingTop: Platform.OS === 'ios' ? 68 : 46,
+          },
         ]}
       >
         <Text style={styles.headerTitle}>時間割</Text>
