@@ -1,26 +1,27 @@
 import { AppFonts } from '@/constants/theme';
 import {
-    createDefaultSettings,
-    formatTime,
-    getSettings,
-    resetAllData,
-    saveSettings,
-    Settings
+  createDefaultSettings,
+  formatTime,
+  getSettings,
+  resetAllData,
+  saveSettings,
+  Settings
 } from '@/utils/storage';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import * as Notifications from 'expo-notifications';
 import { useFocusEffect, useRouter } from 'expo-router';
 import React, { useCallback, useState } from 'react';
 import {
-    Alert,
-    Modal,
-    Platform,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  Alert,
+  Modal,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 
 export default function SettingsScreen() {
@@ -125,7 +126,6 @@ export default function SettingsScreen() {
           style: 'destructive',
           onPress: async () => {
             try {
-              // 通知キャンセルが失敗してもデータ初期化は必ず実行する
               await Notifications.cancelAllScheduledNotificationsAsync().catch(() => undefined);
               const defaultSettings = await resetAllData();
               setSettings(defaultSettings);
@@ -168,7 +168,7 @@ export default function SettingsScreen() {
               onPress={() => changeMaxPeriods(-1)}
               disabled={settings.maxPeriods <= 1}
             >
-              <Text style={styles.stepperText}>−</Text>
+              <MaterialIcons name ="horizontal-rule" size={26} style={styles.stepperText} />
             </TouchableOpacity>
             <View style={styles.stepperValue}>
               <Text style={styles.stepperValueText}>{settings.maxPeriods}限</Text>
@@ -178,7 +178,8 @@ export default function SettingsScreen() {
               onPress={() => changeMaxPeriods(1)}
               disabled={settings.maxPeriods >= 8}
             >
-              <Text style={styles.stepperText}>＋</Text>
+              <MaterialIcons name ="add" size={26} style={styles.stepperText} />
+              
             </TouchableOpacity>
           </View>
         </View>
@@ -232,17 +233,17 @@ export default function SettingsScreen() {
         {/* Default Notify Before */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>通知タイミング設定</Text>
-          <Text style={styles.sectionDesc}>授業の何分前に通知するか</Text>
+          <Text style={styles.sectionDesc}></Text>
           <View style={styles.stepperRow}>
             <TouchableOpacity
               style={[styles.stepperButton, settings.notifyBeforeDefault <= 0 && styles.stepperDisabled]}
               onPress={() => changeNotifyBefore(-1)}
               disabled={settings.notifyBeforeDefault <= 0}
             >
-              <Text style={styles.stepperText}>−</Text>
+              <MaterialIcons name ="horizontal-rule" size={26} style={styles.stepperText} />
             </TouchableOpacity>
             <View style={styles.stepperValue}>
-              <Text style={styles.stepperValueText}>
+              <Text style={styles.stepperValueText}>  
                 {settings.notifyBeforeDefault === 0 ? '時間通り' : `${settings.notifyBeforeDefault}分前`}
               </Text>
             </View>
@@ -251,7 +252,7 @@ export default function SettingsScreen() {
               onPress={() => changeNotifyBefore(1)}
               disabled={settings.notifyBeforeDefault >= 30}
             >
-              <Text style={styles.stepperText}>＋</Text>
+              <MaterialIcons name ="add" size={26} style={styles.stepperText} />
             </TouchableOpacity>
           </View>
         </View>
@@ -275,6 +276,7 @@ export default function SettingsScreen() {
         {/* OSS Licenses */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>ライセンス</Text>
+          <Text style={styles.sectionTitle}></Text>
           <TouchableOpacity style={styles.licenseButton} onPress={() => router.push('/licenses')}>
             <Text style={styles.licenseButtonText}>表示する</Text>
           </TouchableOpacity>
