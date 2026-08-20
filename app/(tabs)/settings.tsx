@@ -1,26 +1,26 @@
 import { AppFonts } from '@/constants/theme';
 import {
-    createDefaultSettings,
-    formatTime,
-    getSettings,
-    resetAllData,
-    saveSettings,
-    Settings
+  createDefaultSettings,
+  formatTime,
+  getSettings,
+  resetAllData,
+  saveSettings,
+  Settings
 } from '@/utils/storage';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import * as Notifications from 'expo-notifications';
 import { useFocusEffect, useRouter } from 'expo-router';
 import React, { useCallback, useState } from 'react';
 import {
-    Alert,
-    Modal,
-    Platform,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  Alert,
+  Modal,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 
 export default function SettingsScreen() {
@@ -232,7 +232,7 @@ export default function SettingsScreen() {
         {/* Default Notify Before */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>通知タイミング設定</Text>
-          <Text style={styles.sectionDesc}>授業の何分前に通知するか</Text>
+          <Text style={styles.sectionDesc}>通知が来るタイミングを設定</Text>
           <View style={styles.stepperRow}>
             <TouchableOpacity
               style={[styles.stepperButton, settings.notifyBeforeDefault <= 0 && styles.stepperDisabled]}

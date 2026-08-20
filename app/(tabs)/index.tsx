@@ -1,31 +1,31 @@
 import { AppFonts } from '@/constants/theme';
 import {
-  DAY_LABELS,
-  DEFAULT_SETTINGS,
-  Settings,
-  TimetableEntry,
-  deleteTimetableEntry,
-  formatTime,
-  generateId,
-  getSettings,
-  getTimetable,
-  upsertTimetableEntry,
+    DAY_LABELS,
+    DEFAULT_SETTINGS,
+    Settings,
+    TimetableEntry,
+    deleteTimetableEntry,
+    formatTime,
+    generateId,
+    getSettings,
+    getTimetable,
+    upsertTimetableEntry,
 } from '@/utils/storage';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import * as Notifications from 'expo-notifications';
 import { useFocusEffect } from 'expo-router';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
-  Alert,
-  Linking,
-  Modal,
-  ScrollView,
-  StyleSheet,
-  Switch,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View
+    Alert,
+    Linking,
+    Modal,
+    ScrollView,
+    StyleSheet,
+    Switch,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View
 } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -197,6 +197,20 @@ export default function TimetableScreen() {
     }
   };
 
+  const ensureNotificationPermission = async (): Promise<boolean> => {
+    const current = await Notifications.getPermissionsAsync();
+    if (current.granted) return true;
+
+    const requested = await Notifications.requestPermissionsAsync();
+    if (requested.granted) return true;
+
+    Alert.alert(
+      '通知が許可されていません',
+      'iPhoneの「設定」>「通知」>「出席リマインダー」から通知を許可してください。'
+    );
+    return false;
+  };
+
   const saveEntry = async () => {
     const entry: TimetableEntry = {
       id: editingEntry?.id || generateId(),
@@ -219,7 +233,12 @@ export default function TimetableScreen() {
 
     // Schedule new notification
     if (!entry.isEmpty && entry.lectureName) {
+      if (!(await ensureNotificationPermission())) return;
       entry.notificationId = await scheduleWeeklyNotification(entry);
+      if (!entry.notificationId) {
+        Alert.alert('通知を登録できませんでした', '授業内容を確認して、もう一度保存してください。');
+        return;
+      }
     }
 
     const updated = await upsertTimetableEntry(entry);
