@@ -288,7 +288,7 @@ export default function TimetableScreen() {
         style={[
           styles.header,
           {
-            backgroundColor: '#3F4E67',
+            backgroundColor: '#FAF9FD',
             paddingTop: Platform.OS === 'ios' ? 68 : 46,
           },
         ]}
@@ -428,7 +428,7 @@ export default function TimetableScreen() {
                   }}
                 >
                   <View style={styles.urlButtonContent}>
-                    <MaterialIcons name="link" size={16} color="rgba(63, 77, 103, 0.86)" />
+                    <MaterialIcons name="link" size={16} color="#6D28D9" />
                     <Text style={styles.urlButtonText}>出席コードを入力</Text>
                   </View>
                 </TouchableOpacity>
@@ -466,7 +466,7 @@ export default function TimetableScreen() {
               <Switch
                 value={formIsEmpty}
                 onValueChange={setFormIsEmpty}
-                trackColor={{ false: '#E0E0E0', true: 'rgba(63, 77, 103, 0.86)' }}
+                trackColor={{ false: '#E2E8F0', true: '#7C3AED' }}
                 thumbColor="#fff"
               />
             </View>
@@ -551,38 +551,25 @@ export default function TimetableScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F0F2F8',
+    backgroundColor: '#FAF9FD',
     overflow: 'visible',
   },
   header: {
-    paddingBottom: 24,
+    paddingBottom: 16,
     paddingHorizontal: 24,
-    borderBottomLeftRadius: 14,
-    borderBottomRightRadius: 14,
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.22)',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.16,
-    shadowRadius: 10,
-    elevation: 6,
     zIndex: 100,
-    position: 'relative',
   },
   headerTitle: {
     fontSize: 28,
     fontWeight: '800',
     fontFamily: AppFonts.bold,
-    color: '#FFFFFF',
-    textShadowColor: 'rgba(0,0,0,0.35)',
-    textShadowOffset: { width: 0, height: 1 },
-    textShadowRadius: 2,
+    color: '#0F172A',
     letterSpacing: 0.5,
   },
   headerSubtitle: {
     fontSize: 14,
     fontFamily: AppFonts.regular,
-    color: '#F1F1F1',
+    color: '#64748B',
     marginTop: 4,
     letterSpacing: 0.3,
   },
@@ -595,18 +582,18 @@ const styles = StyleSheet.create({
   dayTab: {
     flex: 1,
     paddingVertical: 10,
-    borderRadius: 12,
+    borderRadius: 999,
     backgroundColor: '#fff',
     alignItems: 'center',
-    shadowColor: '#000',
+    shadowColor: '#7C3AED',
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.06,
     shadowRadius: 3,
     elevation: 2,
   },
   dayTabActive: {
-    backgroundColor: 'rgba(63, 77, 103, 0.86)',
-    shadowColor: 'rgba(63, 77, 103, 0.86)',
+    backgroundColor: '#7C3AED',
+    shadowColor: '#7C3AED',
     shadowOpacity: 0.3,
     shadowRadius: 8,
     elevation: 6,
@@ -615,7 +602,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: '700',
     fontFamily: AppFonts.bold,
-    color: '#666',
+    color: '#64748B',
   },
   dayTabTextActive: {
     color: '#fff',
@@ -631,13 +618,17 @@ const styles = StyleSheet.create({
   emptyCard: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: '#FFFFFF',
     borderRadius: 16,
     padding: 16,
     marginBottom: 10,
     borderWidth: 2,
-    borderColor: '#E8EAF0',
-    borderStyle: 'dashed',
+    borderColor: '#FFFFFF',
+    shadowColor: '#64748B',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.06,
+    shadowRadius: 8,
+    elevation: 2,
   },
   emptyCardContent: {
     flex: 1,
@@ -659,12 +650,12 @@ const styles = StyleSheet.create({
   freeCard: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#F8F9FC',
+    backgroundColor: '#FFFFFF',
     borderRadius: 16,
     padding: 16,
     marginBottom: 10,
     borderLeftWidth: 4,
-    borderLeftColor: '#D1D5E0',
+    borderLeftColor: '#C4B5FD',
   },
   freeCardContent: {
     flex: 1,
@@ -686,7 +677,7 @@ const styles = StyleSheet.create({
     width: 36,
     height: 36,
     borderRadius: 18,
-    backgroundColor: '#F0F2F8',
+    backgroundColor: '#EDE9FE',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -696,15 +687,12 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     padding: 16,
     marginBottom: 10,
-    borderLeftWidth: 6,
-    borderLeftColor: '#2F3D55',
-    borderWidth: 1,
-    borderColor: '#C8D3E3',
-    shadowColor: '#2F3D55',
+    borderWidth: 0,
+    shadowColor: '#64748B',
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 12,
-    elevation: 7,
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
+    elevation: 4,
   },
   cardHeader: {
     flexDirection: 'row',
@@ -712,19 +700,19 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   periodBadge: {
-    backgroundColor: 'rgba(63, 77, 103, 0.86)',
+    backgroundColor: '#EDE9FE',
     paddingHorizontal: 10,
     paddingVertical: 4,
     borderRadius: 8,
   },
   periodBadgeEmpty: {
-    backgroundColor: '#D1D5E0',
+    backgroundColor: '#EDE9FE',
     paddingHorizontal: 10,
     paddingVertical: 4,
     borderRadius: 8,
   },
   periodBadgeFree: {
-    backgroundColor: '#C0C8D8',
+    backgroundColor: '#EDE9FE',
     paddingHorizontal: 10,
     paddingVertical: 4,
     borderRadius: 8,
@@ -733,12 +721,12 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '800',
     fontFamily: AppFonts.bold,
-    color: '#fff',
+    color: '#6D28D9',
   },
   cardTimeText: {
     fontSize: 12,
     fontFamily: AppFonts.regular,
-    color: '#888',
+    color: '#64748B',
     marginLeft: 8,
     flex: 1,
   },
@@ -755,18 +743,18 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '700',
     fontFamily: AppFonts.bold,
-    color: '#2D3142',
+    color: '#1E293B',
     marginBottom: 4,
   },
   cardMemo: {
     fontSize: 13,
     fontFamily: AppFonts.regular,
-    color: '#7B8294',
+    color: '#64748B',
     flex: 1,
     lineHeight: 18,
   },
   urlButton: {
-    backgroundColor: '#EEF0FF',
+    backgroundColor: '#EDE9FE',
     paddingVertical: 10,
     paddingHorizontal: 14,
     borderRadius: 10,
@@ -778,7 +766,7 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   urlButtonText: {
-    color: 'rgba(63, 77, 103, 0.86)',
+    color: '#6D28D9',
     fontWeight: '700',
     fontFamily: AppFonts.bold,
     fontSize: 14,
@@ -786,7 +774,7 @@ const styles = StyleSheet.create({
   // Modal
   modalContainer: {
     flex: 1,
-    backgroundColor: '#F0F2F8',
+    backgroundColor: '#FAF9FD',
   },
   modalHeader: {
     flexDirection: 'row',
@@ -794,9 +782,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 20,
     paddingBottom: 16,
-    backgroundColor: '#fff',
+    backgroundColor: '#FFFFFF',
     borderBottomWidth: 1,
-    borderBottomColor: '#E8EAF0',
+    borderBottomColor: '#EDE9FE',
   },
   modalCancel: {
     fontSize: 16,
@@ -813,7 +801,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '700',
     fontFamily: AppFonts.bold,
-    color: 'rgba(63, 77, 103, 0.86)',
+    color: '#7C3AED',
   },
   modalBody: {
     flex: 1,
@@ -874,8 +862,8 @@ const styles = StyleSheet.create({
     borderColor: '#E8EAF0',
   },
   notifyOptionActive: {
-    backgroundColor: 'rgba(63, 77, 103, 0.86)',
-    borderColor: 'rgba(63, 77, 103, 0.86)',
+    backgroundColor: '#7C3AED',
+    borderColor: '#7C3AED',
   },
   notifyOptionText: {
     fontSize: 14,

@@ -119,7 +119,7 @@ export default function MemoScreen() {
   return (
     <View style={styles.container}>
       {/* Header */}
-      <View style={[styles.header, { backgroundColor: 'rgba(63, 78, 103, 0.92)' }]}>
+      <View style={[styles.header, { backgroundColor: '#FAF9FD' }]}>
         <Text style={styles.headerTitle}>メモ</Text>
         <Text style={styles.headerSubtitle}>
           {memos.length > 0 ? `${memos.length}件のメモ` : 'メモはまだありません'}
@@ -129,7 +129,7 @@ export default function MemoScreen() {
       {/* Add button */}
       <View style={styles.addRow}>
         <TouchableOpacity style={styles.addButton} onPress={openNew}>
-          <View style={[styles.addButtonGradient, { backgroundColor: 'rgba(63, 78, 103, 0.92)' }]}>
+          <View style={[styles.addButtonGradient, { backgroundColor: '#7C3AED' }]}>
             <Text style={styles.addButtonText}>＋ 新しいメモ</Text>
           </View>
         </TouchableOpacity>
@@ -209,7 +209,7 @@ export default function MemoScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F0F2F8',
+    backgroundColor: '#FAF9FD',
     overflow: 'visible',
   },
   header: {
@@ -219,8 +219,8 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 14,
     borderBottomRightRadius: 14,
     borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.22)',
-    shadowColor: '#000',
+    borderColor: '#FFFFFF',
+    shadowColor: '#64748B',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.16,
     shadowRadius: 10,
@@ -232,16 +232,13 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: '800',
     fontFamily: AppFonts.bold,
-    color: '#FFFFFF',
-    textShadowColor: 'rgba(0,0,0,0.35)',
-    textShadowOffset: { width: 0, height: 1 },
-    textShadowRadius: 2,
+    color: '#0F172A',
     letterSpacing: 0.5,
   },
   headerSubtitle: {
     fontSize: 14,
     fontFamily: AppFonts.regular,
-    color: '#F1F1F1',
+    color: '#64748B',
     marginTop: 4,
   },
   addRow: {
@@ -337,7 +334,7 @@ const styles = StyleSheet.create({
   // Modal
   modalContainer: {
     flex: 1,
-    backgroundColor: '#F0F2F8',
+    backgroundColor: '#FAF9FD',
   },
   modalHeader: {
     flexDirection: 'row',
@@ -348,7 +345,7 @@ const styles = StyleSheet.create({
     paddingBottom: 16,
     backgroundColor: '#fff',
     borderBottomWidth: 1,
-    borderBottomColor: '#E8EAF0',
+    borderBottomColor: '#EDE9FE',
   },
   modalCancel: {
     fontSize: 16,
@@ -365,7 +362,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '700',
     fontFamily: AppFonts.bold,
-    color: '#f5576c',
+    color: '#7C3AED',
   },
   modalBody: {
     flex: 1,

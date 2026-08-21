@@ -148,7 +148,7 @@ export default function SettingsScreen() {
   return (
     <View style={styles.container}>
       {/* Header */}
-      <View style={[styles.header, { backgroundColor: 'rgba(63, 78, 103, 0.92)' }]}>
+      <View style={[styles.header, { backgroundColor: '#FAF9FD' }]}>
         <Text style={styles.headerTitle}>設定</Text>
         <Text style={styles.headerSubtitle}>時間割・通知の設定</Text>
       </View>
@@ -159,28 +159,31 @@ export default function SettingsScreen() {
         showsVerticalScrollIndicator={false}
       >
         {/* Max Periods */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>最大限数</Text>
-          <Text style={styles.sectionDesc}>大学の時間割の最大コマ数を設定</Text>
-          <View style={styles.stepperRow}>
-            <TouchableOpacity
-              style={[styles.stepperButton, settings.maxPeriods <= 1 && styles.stepperDisabled]}
-              onPress={() => changeMaxPeriods(-1)}
-              disabled={settings.maxPeriods <= 1}
-            >
-              <MaterialIcons name ="horizontal-rule" size={26} style={styles.stepperText} />
-            </TouchableOpacity>
-            <View style={styles.stepperValue}>
-              <Text style={styles.stepperValueText}>{settings.maxPeriods}限</Text>
+        <View style={[styles.section, styles.maxPeriodsSection]}>
+          <View style={styles.maxPeriodsRow}>
+            <View style={styles.maxPeriodsCopy}>
+              <Text style={styles.maxPeriodsTitle}>最大限数</Text>
+              <Text style={styles.maxPeriodsDesc}>大学の時間割の最大コマ数</Text>
             </View>
-            <TouchableOpacity
-              style={[styles.stepperButton, settings.maxPeriods >= 8 && styles.stepperDisabled]}
-              onPress={() => changeMaxPeriods(1)}
-              disabled={settings.maxPeriods >= 8}
-            >
-              <MaterialIcons name ="add" size={26} style={styles.stepperText} />
-
-            </TouchableOpacity>
+            <View style={styles.maxPeriodsStepper}>
+              <TouchableOpacity
+                style={[styles.maxPeriodsButton, settings.maxPeriods <= 1 && styles.stepperDisabled]}
+                onPress={() => changeMaxPeriods(-1)}
+                disabled={settings.maxPeriods <= 1}
+              >
+                <MaterialIcons name="horizontal-rule" size={22} color="#2D3142" />
+              </TouchableOpacity>
+              <View style={styles.maxPeriodsValue}>
+                <Text style={styles.maxPeriodsValueText}>{settings.maxPeriods}限</Text>
+              </View>
+              <TouchableOpacity
+                style={[styles.maxPeriodsButton, settings.maxPeriods >= 8 && styles.stepperDisabled]}
+                onPress={() => changeMaxPeriods(1)}
+                disabled={settings.maxPeriods >= 8}
+              >
+                <MaterialIcons name="add" size={22} color="#2D3142" />
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
 
@@ -260,18 +263,16 @@ export default function SettingsScreen() {
         {/* Save Button */}
         {hasChanges && (
           <TouchableOpacity style={styles.saveButtonWrapper} onPress={handleSave}>
-            <View style={[styles.saveButton, { backgroundColor: 'rgba(63, 78, 103, 0.92)' }]}>
+            <View style={[styles.saveButton, { backgroundColor: '#7C3AED' }]}>
               <Text style={styles.saveButtonText}>設定を保存</Text>
             </View>
           </TouchableOpacity>
         )}
 
         {/* Danger Zone */}
-        <View style={[styles.section, styles.dangerSection]}>
-          <TouchableOpacity style={styles.resetButton} onPress={handleResetAll}>
-            <Text style={styles.resetButtonText}>全データをリセット</Text>
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity style={styles.resetButtonStandalone} onPress={handleResetAll}>
+          <Text style={styles.resetButtonText}>全データをリセット</Text>
+        </TouchableOpacity>
 
         {/* OSS Licenses */}
         <View style={styles.section}>
@@ -367,7 +368,7 @@ export default function SettingsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F0F2F8',
+    backgroundColor: '#FAF9FD',
     overflow: 'visible',
   },
   header: {
@@ -377,8 +378,8 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 14,
     borderBottomRightRadius: 14,
     borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.22)',
-    shadowColor: '#000',
+    borderColor: '#FFFFFF',
+    shadowColor: '#64748B',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.16,
     shadowRadius: 10,
@@ -390,24 +391,23 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: '800',
     fontFamily: AppFonts.bold,
-    color: '#FFFFFF',
-    textShadowColor: 'rgba(0,0,0,0.35)',
-    textShadowOffset: { width: 0, height: 1 },
-    textShadowRadius: 2,
+    color: '#0F172A',
     letterSpacing: 0.5,
   },
   headerSubtitle: {
     fontSize: 14,
     fontFamily: AppFonts.regular,
-    color: '#F1F1F1',
+    color: '#64748B',
     marginTop: 4,
   },
   scrollContainer: {
     flex: 1,
   },
   scrollContent: {
-    padding: 16,
-    paddingTop: 20,
+    width: '92%',
+    alignSelf: 'center',
+    paddingTop: 16,
+    paddingBottom: 20,
   },
   section: {
     backgroundColor: '#fff',
@@ -419,6 +419,57 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.04,
     shadowRadius: 4,
     elevation: 2,
+  },
+  maxPeriodsSection: {
+    paddingVertical: 14,
+  },
+  maxPeriodsRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  maxPeriodsCopy: {
+    flex: 1,
+    marginRight: 12,
+  },
+  maxPeriodsTitle: {
+    fontSize: 17,
+    fontWeight: '700',
+    fontFamily: AppFonts.bold,
+    color: '#2D3142',
+    marginBottom: 2,
+  },
+  maxPeriodsDesc: {
+    fontSize: 12,
+    fontFamily: AppFonts.regular,
+    color: '#AAB2C0',
+  },
+  maxPeriodsStepper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+  },
+  maxPeriodsButton: {
+    width: 34,
+    height: 34,
+    borderRadius: 17,
+    backgroundColor: '#EDE9FE',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  maxPeriodsValue: {
+    minWidth: 58,
+    paddingVertical: 7,
+    paddingHorizontal: 10,
+    borderRadius: 9,
+    backgroundColor: '#EDE9FE',
+    alignItems: 'center',
+  },
+  maxPeriodsValueText: {
+    fontSize: 16,
+    fontWeight: '700',
+    fontFamily: AppFonts.bold,
+    color: '#6D28D9',
   },
   sectionTitle: {
     fontSize: 17,
@@ -447,7 +498,7 @@ const styles = StyleSheet.create({
     width: 44,
     height: 44,
     borderRadius: 12,
-    backgroundColor: '#F0F2F8',
+    backgroundColor: '#EDE9FE',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -458,13 +509,13 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: '700',
     fontFamily: AppFonts.bold,
-    color: '#2D3142',
+    color: '#6D28D9',
   },
   stepperValue: {
     minWidth: 100,
     paddingVertical: 10,
     paddingHorizontal: 20,
-    backgroundColor: '#F8F9FC',
+    backgroundColor: '#EDE9FE',
     borderRadius: 12,
     alignItems: 'center',
   },
@@ -472,7 +523,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '700',
     fontFamily: AppFonts.bold,
-    color: '#2D3142',
+    color: '#6D28D9',
   },
   // Period times
   periodTimeRow: {
@@ -484,7 +535,7 @@ const styles = StyleSheet.create({
   periodLabel: {
     width: 40,
     paddingVertical: 6,
-    backgroundColor: 'rgba(63, 77, 103, 0.86)',
+    backgroundColor: '#EDE9FE',
     borderRadius: 8,
     alignItems: 'center',
   },
@@ -492,16 +543,16 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '800',
     fontFamily: AppFonts.bold,
-    color: '#fff',
+    color: '#6D28D9',
   },
   timeButton: {
     flex: 1,
     paddingVertical: 10,
-    backgroundColor: '#F8F9FC',
+    backgroundColor: '#FFFFFF',
     borderRadius: 10,
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: '#E8EAF0',
+    borderColor: '#EDE9FE',
   },
   timeButtonText: {
     fontSize: 16,
@@ -516,14 +567,14 @@ const styles = StyleSheet.create({
   },
   // URL input
   urlInput: {
-    backgroundColor: '#F8F9FC',
+    backgroundColor: '#FFFFFF',
     padding: 14,
     borderRadius: 12,
     fontSize: 15,
     fontFamily: AppFonts.regular,
     color: '#2D3142',
     borderWidth: 1,
-    borderColor: '#E8EAF0',
+    borderColor: '#EDE9FE',
   },
   // Save button
   saveButtonWrapper: {
@@ -532,7 +583,7 @@ const styles = StyleSheet.create({
     marginBottom: 14,
     borderWidth: 1,
     borderColor: 'rgba(255,255,255,0.2)',
-    shadowColor: '#4facfe',
+    shadowColor: '#7C3AED',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 8,
@@ -550,15 +601,12 @@ const styles = StyleSheet.create({
     fontFamily: AppFonts.bold,
   },
   // Danger zone
-  dangerSection: {
-    borderWidth: 1,
-    borderColor: '#FFE0E0',
-  },
-  resetButton: {
+  resetButtonStandalone: {
     backgroundColor: '#FFF0F0',
     padding: 14,
     borderRadius: 12,
     alignItems: 'center',
+    marginBottom: 14,
   },
   resetButtonText: {
     color: '#E53935',
@@ -602,6 +650,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '700',
     fontFamily: AppFonts.bold,
-    color: '#4facfe',
+    color: '#7C3AED',
   },
 });
