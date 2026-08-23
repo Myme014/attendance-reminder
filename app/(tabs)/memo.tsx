@@ -116,14 +116,23 @@ export default function MemoScreen() {
     </TouchableOpacity>
   );
 
+  const today = new Date();
+  const weekdayLabels = ['日', '月', '火', '水', '木', '金', '土'];
+  const todayLabel = `${today.getMonth() + 1}/${today.getDate()} ${weekdayLabels[today.getDay()]}`;
+
   return (
     <View style={styles.container}>
       {/* Header */}
       <View style={[styles.header, { backgroundColor: '#FAF9FD' }]}>
-        <Text style={styles.headerTitle}>メモ</Text>
-        <Text style={styles.headerSubtitle}>
-          {memos.length > 0 ? `${memos.length}件のメモ` : 'メモはまだありません'}
-        </Text>
+        <View style={styles.headerRow}>
+          <View style={styles.headerTitleGroup}>
+            <MaterialIcons name="note-add" size={30} color="#7C3AED" />
+            <Text style={styles.headerTitle}>メモ</Text>
+          </View>
+          <View style={styles.dateBadge}>
+            <Text style={styles.dateBadgeText}>{todayLabel}</Text>
+          </View>
+        </View>
       </View>
 
       {/* Add button */}
@@ -214,32 +223,38 @@ const styles = StyleSheet.create({
   },
   header: {
     paddingTop: Platform.OS === 'ios' ? 68 : 46,
-    paddingBottom: 24,
+    paddingBottom: 16,
     paddingHorizontal: 24,
-    borderBottomLeftRadius: 14,
-    borderBottomRightRadius: 14,
-    borderWidth: 1,
-    borderColor: '#FFFFFF',
-    shadowColor: '#64748B',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.16,
-    shadowRadius: 10,
-    elevation: 6,
     zIndex: 100,
-    position: 'relative',
+  },
+  headerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  headerTitleGroup: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
   },
   headerTitle: {
-    fontSize: 28,
+    fontSize: 30,
     fontWeight: '800',
     fontFamily: AppFonts.bold,
     color: '#0F172A',
     letterSpacing: 0.5,
   },
-  headerSubtitle: {
-    fontSize: 14,
-    fontFamily: AppFonts.regular,
-    color: '#64748B',
-    marginTop: 4,
+  dateBadge: {
+    backgroundColor: '#EDE9FE',
+    borderRadius: 999,
+    paddingHorizontal: 11,
+    paddingVertical: 6,
+  },
+  dateBadgeText: {
+    fontSize: 12,
+    fontWeight: '700',
+    fontFamily: AppFonts.medium,
+    color: '#6D28D9',
   },
   addRow: {
     paddingHorizontal: 16,

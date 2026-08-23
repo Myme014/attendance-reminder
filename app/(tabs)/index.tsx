@@ -1,32 +1,32 @@
 import { AppFonts } from '@/constants/theme';
 import {
-    DAY_LABELS,
-    DEFAULT_SETTINGS,
-    Settings,
-    TimetableEntry,
-    deleteTimetableEntry,
-    formatTime,
-    generateId,
-    getSettings,
-    getTimetable,
-    upsertTimetableEntry,
+  DAY_LABELS,
+  DEFAULT_SETTINGS,
+  Settings,
+  TimetableEntry,
+  deleteTimetableEntry,
+  formatTime,
+  generateId,
+  getSettings,
+  getTimetable,
+  upsertTimetableEntry,
 } from '@/utils/storage';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import * as Notifications from 'expo-notifications';
 import { useFocusEffect } from 'expo-router';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
-    Alert,
-    Linking,
-    Modal,
-    Platform,
-    ScrollView,
-    StyleSheet,
-    Switch,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View
+  Alert,
+  Linking,
+  Modal,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Switch,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View
 } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -280,6 +280,9 @@ export default function TimetableScreen() {
   };
 
   const dayEntries = getDayEntries(selectedDay);
+  const today = new Date();
+  const weekdayLabels = ['日', '月', '火', '水', '木', '金', '土'];
+  const todayLabel = `${today.getMonth() + 1}/${today.getDate()} ${weekdayLabels[today.getDay()]}`;
 
   return (
     <SafeAreaView style={styles.container} edges={['left', 'right']}>
@@ -293,8 +296,15 @@ export default function TimetableScreen() {
           },
         ]}
       >
-        <Text style={styles.headerTitle}>時間割</Text>
-        <Text style={styles.headerSubtitle}>出席リマインダー</Text>
+        <View style={styles.headerRow}>
+          <View style={styles.headerTitleGroup}>
+            <MaterialIcons name="assignment" size={30} color="#7C3AED" />
+            <Text style={styles.headerTitle}>時間割</Text>
+          </View>
+          <View style={styles.dateBadge}>
+            <Text style={styles.dateBadgeText}>{todayLabel}</Text>
+          </View>
+        </View>
       </View>
 
       {/* Day Tabs */}
@@ -559,24 +569,40 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     zIndex: 100,
   },
+  headerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  headerTitleGroup: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
   headerTitle: {
-    fontSize: 28,
+    fontSize: 30,
     fontWeight: '800',
     fontFamily: AppFonts.bold,
     color: '#0F172A',
     letterSpacing: 0.5,
   },
-  headerSubtitle: {
-    fontSize: 14,
-    fontFamily: AppFonts.regular,
-    color: '#64748B',
-    marginTop: 4,
-    letterSpacing: 0.3,
+  dateBadge: {
+    backgroundColor: '#EDE9FE',
+    borderRadius: 999,
+    paddingHorizontal: 11,
+    paddingVertical: 6,
+  },
+  dateBadgeText: {
+    fontSize: 12,
+    fontWeight: '700',
+    fontFamily: AppFonts.medium,
+    color: '#6D28D9',
   },
   dayTabsContainer: {
     flexDirection: 'row',
     paddingHorizontal: 16,
-    paddingVertical: 14,
+    paddingTop: 4,
+    paddingBottom: 14,
     gap: 8,
   },
   dayTab: {
